@@ -2,7 +2,7 @@ module ApplicationHelper
 	def error_messages_for(*params)
 		options = params.extract_options!.symbolize_keys
 		objects = params.collect { |name| instance_variable_get("@#{name}") }
-		error_messages = objects.map { |o| o.full_messages }
+		error_messages = objects.map { |o| o.errors.full_messages }
 		unless error_messages.flatten!.empty?
 			if options[:partial]
 				render partial: options[:partial], locals: { errors: error_messages }

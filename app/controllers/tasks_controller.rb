@@ -17,6 +17,10 @@ class TasksController < ApplicationController
     @task = Task.new
   end
 
+  def new_task
+    @task = Task.new
+  end
+
   # GET /tasks/1/edit
   def edit
   end

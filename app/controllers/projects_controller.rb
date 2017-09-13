@@ -25,30 +25,44 @@ class ProjectsController < ApplicationController
   # POST /projects
   # POST /projects.json
   def create
-    @project = Project.new(project_params)
+    # @project = Project.new(project_params)
+    # respond_to do |format|
+    #   if @project.save
+    #     format.html { redirect_to @project, notice: 'Project was successfully created.' }
+    #     format.json { render :show, status: :created, location: @project }
+    #   else
+    #     format.html { render :new }
+    #     format.json { render json: @project.errors, status: :unprocessable_entity }
+    #   end
+    # end
 
-    respond_to do |format|
-      if @project.save
-        format.html { redirect_to @project, notice: 'Project was successfully created.' }
-        format.json { render :show, status: :created, location: @project }
-      else
-        format.html { render :new }
-        format.json { render json: @project.errors, status: :unprocessable_entity }
-      end
+    @project = Project.new(project_params)
+    if @project.save
+      redirect_to projects_path, notice: 'Project was successfully created.'
+    else
+      render :new
     end
   end
 
   # PATCH/PUT /projects/1
   # PATCH/PUT /projects/1.json
   def update
-    respond_to do |format|
-      if @project.update(project_params)
-        format.html { redirect_to @project, notice: 'Project was successfully updated.' }
-        format.json { render :show, status: :ok, location: @project }
-      else
-        format.html { render :edit }
-        format.json { render json: @project.errors, status: :unprocessable_entity }
-      end
+    # respond_to do |format|
+    #   if @project.update(project_params)
+    #     format.html { redirect_to @project, notice: 'Project was successfully updated.' }
+    #     format.json { render :show, status: :ok, location: @project }
+    #   else
+    #     format.html { render :edit }
+    #     format.json { render json: @project.errors, status: :unprocessable_entity }
+    #   end
+    # end
+
+    params[:project][:existing_task_attributes] ||= {}
+    @project = Project.find params[:id]
+    if @project.update_attributes(params[:project])
+      redirect_to @project, notice: 'Project was successfully updated.'
+    else
+      render :edit
     end
   end
 

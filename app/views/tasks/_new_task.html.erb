@@ -1,0 +1,11 @@
+<div class="task">
+<% new_or_existing = (new_task.new_record?)? 'new' : 'existing' %>	
+<% prefix = "project[#{new_or_existing}_task_attributes][]" %>
+
+<%= fields_for prefix, new_task do |task_form| -%>
+	<p>
+		Task: <%= task_form.text_field :name %>
+		<%= link_to 'remove', '#', class: 'remove_task' %>
+	</p>
+<% end -%>
+</div>
