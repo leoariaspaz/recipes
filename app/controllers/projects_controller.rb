@@ -57,9 +57,10 @@ class ProjectsController < ApplicationController
     #   end
     # end
 
-    params[:project][:existing_task_attributes] ||= {}
-    @project = Project.find params[:id]
-    if @project.update_attributes(params[:project])
+    # params[:project][:existing_task_attributes] ||= {}
+    # @project = Project.find params[:id]
+    # if @project.update_attributes(params[:project])
+    if @project.update_attributes(project_params)
       redirect_to @project, notice: 'Project was successfully updated.'
     else
       render :edit
@@ -84,6 +85,6 @@ class ProjectsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def project_params
-      params.require(:project).permit(:name)
+      params.require(:project).permit(:name, {new_task_attributes: :name}, {existing_task_attributes: :name})
     end
 end

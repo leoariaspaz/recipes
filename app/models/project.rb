@@ -7,12 +7,12 @@ class Project < ApplicationRecord
 
 	def new_task_attributes=(task_attributes)
 		task_attributes.each do |attributes|
-			tasks.build_attributes(attributes)
+			tasks.build(attributes)
 		end
 	end
 
 	def existing_task_attributes=(task_attributes)
-		tasks.reject(&:new_record).each do |task|
+		tasks.reject(&:new_record?).each do |task|
 			attributes = task_attributes[task.id.to_s]
 			if attributes
 				task.attributes = attributes
@@ -23,8 +23,8 @@ class Project < ApplicationRecord
 	end
 
 	def save_tasks
-		tasks.each do |task|
-			task.save(false)
+		tasks.each do |t|
+			t.save(validate: false)
 		end
 	end
 end
