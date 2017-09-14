@@ -6,16 +6,18 @@ module ApplicationHelper
 		unless error_messages.flatten!.empty?
 			if options[:partial]
 				render partial: options[:partial], locals: { errors: error_messages }
-			else
-				header = "Se produjeron los siguientes errores:"
-				error_list = error_messages.map { |m| content_tag(:li, m) }
-				contents = ''
-				contents << content_tag(:h2, header)
+			else				
+				error_list = ''.html_safe
+				error_messages.map do |m| 
+					error_list += content_tag(:li, m).html_safe
+				end
+				contents = ''.html_safe
+				contents << content_tag(:h2, "Se produjeron los siguientes errores:")
 				contents << content_tag(:ul, error_list)
 				content_tag(:div, contents, class: 'errorExplanation', id: 'errorExplanation')
 			end
 		else
-			''
+			''.html_safe
 		end
 	end
 end
